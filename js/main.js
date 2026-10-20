@@ -171,11 +171,11 @@
   const playSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
 
   grid.innerHTML = work.map((w, i) => {
-    const cat = ["business", "education", "shorts"].includes(w.category) ? w.category : "business";
+    const cat = ["business", "education", "shorts", "films"].includes(w.category) ? w.category : "business";
     const size = w.size === "wide" ? " card--wide" : w.size === "tall" ? " card--tall" : "";
     const id = (w.youtubeId || "").trim();
     const screen = id
-      ? `<img src="https://i.ytimg.com/vi/${esc(id)}/hqdefault.jpg" alt="" loading="lazy" decoding="async" />`
+      ? `<img src="https://i.ytimg.com/vi/${esc(id)}/${cat === "shorts" ? "hqdefault" : "maxresdefault"}.jpg" data-fallback="https://i.ytimg.com/vi/${esc(id)}/hqdefault.jpg" alt="" loading="lazy" decoding="async" />`
       : `<div class="poster" aria-hidden="true"><span class="poster__orb"></span><span class="poster__ring"></span><span class="poster__moon"></span><span class="poster__type">${esc(w.title)}</span></div>`;
     const action = id ? `Play ${esc(w.title)}` : `Watch ${esc(w.title)} on YouTube (opens a new tab)`;
     return `
@@ -193,6 +193,13 @@
         </button>
       </article>`;
   }).join("");
+
+  // Older videos have no HD thumbnail (YouTube returns a 120px grey placeholder) — fall back
+  $$("img[data-fallback]", grid).forEach(img => {
+    const swap = () => { if (img.dataset.fallback && img.src !== img.dataset.fallback) img.src = img.dataset.fallback; };
+    img.addEventListener("error", swap);
+    img.addEventListener("load", () => { if (img.naturalWidth <= 120) swap(); });
+  });
 
   // Filters
   const chips = $$(".chip");

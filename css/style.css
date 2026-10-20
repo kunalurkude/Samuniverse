@@ -467,6 +467,7 @@ button, .btn, .chip { -webkit-user-select: none; user-select: none; }
 }
 .card[data-cat="education"] { --c: var(--rose); }
 .card[data-cat="shorts"] { --c: var(--ember); }
+.card[data-cat="films"] { --c: var(--ice); }
 .card--wide { grid-column: span 2; }
 .card--tall { grid-row: span 2; }
 .card.is-hidden { display: none; }
@@ -692,8 +693,17 @@ button, .btn, .chip { -webkit-user-select: none; user-select: none; }
 }
 
 .reels { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
-.reels--embed { grid-template-columns: 1fr; }
-.reels iframe { width: 100%; min-height: 32rem; border: 0; border-radius: var(--r-md); background: #fff; }
+.reels--embed {
+  display: flex; gap: .8rem;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  padding-bottom: .4rem;
+  scrollbar-width: thin; scrollbar-color: var(--red) transparent;
+}
+.reels--embed iframe {
+  flex: 0 0 min(100%, 340px); scroll-snap-align: start;
+  height: 34rem; border: 0; border-radius: var(--r-md); background: #fff;
+}
 .reel-tile {
   --c: var(--ember);
   position: relative; aspect-ratio: 9 / 16; border-radius: var(--r-md); overflow: hidden;
