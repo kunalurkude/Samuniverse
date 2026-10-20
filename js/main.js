@@ -81,6 +81,7 @@
   const canvas = $("#sky");
   const ctx = canvas.getContext("2d");
   const playhead = $("#playhead");
+  const heroMark = $(".hero__mark");
   const tc = $("#tc");
   const LOOP = 8000; // ms
   const FPS = 25;
@@ -89,7 +90,7 @@
   let running = true, start = performance.now();
 
   const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const C = { red: css("--red"), ember: css("--ember"), rose: css("--rose"), blush: css("--blush"), paper: css("--paper") };
+  const C = { red: css("--red"), ember: css("--ember"), rose: css("--rose"), blush: css("--blush"), paper: css("--paper"), ice: css("--ice") };
 
   function resize() {
     DPR = Math.min(window.devicePixelRatio || 1, 2);
@@ -102,7 +103,8 @@
       y: Math.random() * H,
       r: Math.random() * 1.3 + .3,
       d: Math.random() * .8 + .2,          // depth for parallax
-      p: Math.random() * Math.PI * 2       // twinkle phase
+      p: Math.random() * Math.PI * 2,      // twinkle phase
+      ice: Math.random() < .3
     }));
   }
 
@@ -118,71 +120,20 @@
     for (const s of stars) {
       const a = .35 + .45 * Math.sin(s.p + t * Math.PI * 2 * (1 + s.d));
       ctx.globalAlpha = Math.max(.08, a);
-      ctx.fillStyle = C.paper;
+      ctx.fillStyle = s.ice ? C.ice : C.paper;
       ctx.beginPath();
       ctx.arc(s.x + tx * 14 * s.d, s.y + ty * 10 * s.d, s.r, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.globalAlpha = 1;
 
-    // Planet system, anchored right on desktop, top-right on phones
-    const mobile = W < 700;
-    const R = mobile ? Math.min(W, H) * .16 : Math.min(W, H) * .14;
-    const cx = (mobile ? W * .8 : W * .82) + tx * 22;
-    const cy = (mobile ? H * .17 : H * .3) + ty * 16;
-
-    // Planet "breathes" on the keyframes shown in the timeline (12% → 50% → 88%)
+    // Logo mark: parallax + "breathes" on the keyframes shown in the timeline (12% → 50% → 88%)
     const k = t < .12 ? 0 : t < .5 ? easeInOut((t - .12) / .38) : t < .88 ? 1 - easeInOut((t - .5) / .38) : 0;
-    const pr = R * (1 + k * .06);
-
-    // Back half of ring
-    const tilt = -.32;
-    ctx.save();
-    ctx.translate(cx, cy); ctx.rotate(tilt);
-    ctx.strokeStyle = "rgba(245,242,255,.28)"; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.ellipse(0, 0, R * 2, R * .55, 0, Math.PI, Math.PI * 2); ctx.stroke();
-    ctx.restore();
-
-    // Red halo
-    const halo = ctx.createRadialGradient(cx, cy, pr * .8, cx, cy, pr * 2.6);
-    halo.addColorStop(0, "rgba(255,42,61,.28)"); halo.addColorStop(1, "rgba(255,42,61,0)");
-    ctx.fillStyle = halo;
-    ctx.beginPath(); ctx.arc(cx, cy, pr * 2.6, 0, Math.PI * 2); ctx.fill();
-
-    // Planet body with a soft terminator
-    const g = ctx.createRadialGradient(cx - pr * .35, cy - pr * .4, pr * .1, cx, cy, pr);
-    g.addColorStop(0, "#FF7A86"); g.addColorStop(.5, C.red); g.addColorStop(1, "#4A0009");
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(cx, cy, pr, 0, Math.PI * 2); ctx.fill();
-
-    // Front half of ring
-    ctx.save();
-    ctx.translate(cx, cy); ctx.rotate(tilt);
-    ctx.strokeStyle = "rgba(245,242,255,.55)"; ctx.lineWidth = 1.8;
-    ctx.beginPath(); ctx.ellipse(0, 0, R * 2, R * .55, 0, 0, Math.PI); ctx.stroke();
-
-    // Moons riding the ring
-    const moons = [
-      { c: C.paper, r: R * .14, off: 0 },
-      { c: C.ember, r: R * .1, off: .38 },
-      { c: C.rose, r: R * .07, off: .7 }
-    ];
-    for (const m of moons) {
-      const a = (t + m.off) * Math.PI * 2;
-      const x = Math.cos(a) * R * 2, y = Math.sin(a) * R * .55;
-      const behind = Math.sin(a) < 0;
-      if (behind) {
-        // hide behind planet: skip if overlapping planet disc
-        const wx = x * Math.cos(tilt) - y * Math.sin(tilt), wy = x * Math.sin(tilt) + y * Math.cos(tilt);
-        if (Math.hypot(wx, wy) < pr) continue;
-      }
-      ctx.globalAlpha = behind ? .55 : 1;
-      ctx.fillStyle = m.c;
-      ctx.beginPath(); ctx.arc(x, y, m.r, 0, Math.PI * 2); ctx.fill();
+    if (heroMark) {
+      heroMark.style.setProperty("--mx", (tx * 18).toFixed(2) + "px");
+      heroMark.style.setProperty("--my", (ty * 14 - k * 10).toFixed(2) + "px");
+      heroMark.style.setProperty("--k", k.toFixed(3));
     }
-    ctx.restore();
-    ctx.globalAlpha = 1;
-
     // Timeline playhead + timecode
     const lane = playhead.parentElement;
     const laneW = lane.clientWidth - playhead.offsetLeft - 10;

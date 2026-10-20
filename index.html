@@ -7,16 +7,18 @@
   <meta name="description" content="Samuniverse makes animated explainer videos, course animations, reels and logo motion for businesses and educators. See the work and start a project." />
   <meta name="theme-color" content="#050505" />
   <meta name="color-scheme" content="dark" />
-  <link rel="canonical" href="https://samuniverse.github.io/" />
+  <link rel="canonical" href="https://kunalurkude.github.io/Samuniverse/" />
 
   <!-- Social share preview -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Samuniverse — We make ideas move" />
+  <meta property="og:title" content="Samuniverse — Accept the reality" />
   <meta property="og:description" content="Animated explainers, course videos, reels and logo motion for businesses and educators." />
-  <meta property="og:image" content="assets/og-image.png" />
+  <meta property="og:image" content="https://kunalurkude.github.io/Samuniverse/assets/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="preload" href="assets/logo-mark.webp" as="image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -27,6 +29,8 @@
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Samuniverse",
+    "slogan": "Accept the reality",
+    "logo": "https://kunalurkude.github.io/Samuniverse/assets/logo.webp",
     "description": "Motion video studio making animated explainers, educational videos, reels and logo animation.",
     "sameAs": [
       "https://www.instagram.com/samuniverse12/",
@@ -42,12 +46,8 @@
   <!-- Floating island nav -->
   <header class="nav" id="nav">
     <a href="#top" class="nav__brand" aria-label="Samuniverse home">
-      <svg viewBox="0 0 40 40" aria-hidden="true" class="nav__logo">
-        <circle cx="20" cy="20" r="7" fill="var(--red)"/>
-        <ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="var(--paper)" stroke-width="1.6" transform="rotate(-24 20 20)"/>
-        <circle cx="34" cy="13" r="2.6" fill="var(--paper)"/>
-      </svg>
-      <span>samuniverse</span>
+      <img src="assets/logo-mark-sm.png" alt="" class="nav__logo" width="40" height="37" />
+      <span class="wordmark"><b>SAM</b>UNIVERSE</span>
     </a>
     <nav class="nav__links" aria-label="Primary">
       <a href="#work">Work</a>
@@ -75,6 +75,10 @@
     <!-- HERO -->
     <section class="hero" id="top">
       <canvas class="hero__sky" id="sky" aria-hidden="true"></canvas>
+      <div class="hero__mark" aria-hidden="true">
+        <span class="hero__halo"></span>
+        <img src="assets/logo-mark.webp" alt="" width="640" height="592" fetchpriority="high" />
+      </div>
 
       <div class="hero__inner wrap">
         <p class="hero__kicker"><span class="dot"></span> Motion studio for businesses and educators</p>
@@ -100,7 +104,7 @@
         </div>
         <div class="timeline__tracks">
           <div class="track"><span class="track__label">Headline</span><div class="track__lane"><i class="clip clip--sun" style="--s:0;--e:46"></i><b class="kf" style="--p:0"></b><b class="kf" style="--p:18"></b><b class="kf" style="--p:46"></b></div></div>
-          <div class="track"><span class="track__label">Planet</span><div class="track__lane"><i class="clip clip--coral" style="--s:12;--e:88"></i><b class="kf" style="--p:12"></b><b class="kf" style="--p:50"></b><b class="kf" style="--p:88"></b></div></div>
+          <div class="track"><span class="track__label">Logo</span><div class="track__lane"><i class="clip clip--coral" style="--s:12;--e:88"></i><b class="kf" style="--p:12"></b><b class="kf" style="--p:50"></b><b class="kf" style="--p:88"></b></div></div>
           <div class="track"><span class="track__label">Stars</span><div class="track__lane"><i class="clip clip--sky" style="--s:0;--e:100"></i><b class="kf" style="--p:30"></b><b class="kf" style="--p:72"></b></div></div>
           <div class="timeline__playhead" id="playhead"></div>
         </div>
@@ -312,14 +316,7 @@
 
   <footer class="footer">
     <div class="wrap footer__inner">
-      <a href="#top" class="nav__brand">
-        <svg viewBox="0 0 40 40" aria-hidden="true" class="nav__logo">
-          <circle cx="20" cy="20" r="7" fill="var(--red)"/>
-          <ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="var(--paper)" stroke-width="1.6" transform="rotate(-24 20 20)"/>
-          <circle cx="34" cy="13" r="2.6" fill="var(--paper)"/>
-        </svg>
-        <span>samuniverse</span>
-      </a>
+      <a href="#top" class="footer__logo" aria-label="Samuniverse, back to top"><img src="assets/logo.webp" alt="Samuniverse — Accept the reality" width="400" height="405" loading="lazy" /></a>
       <p class="muted small">© <span id="year"></span> Samuniverse. Motion videos for businesses and educators.</p>
       <div class="footer__social">
         <a data-yt-subscribe href="#" target="_blank" rel="noopener">YouTube</a>
