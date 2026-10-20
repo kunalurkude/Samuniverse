@@ -13,7 +13,7 @@ window.SAM = {
                    paste its URL here (https://formspree.io/f/xxxx)
                    and messages arrive in your inbox. If left "",
                    the form opens the visitor's email app instead. */
-  email: "hello@samuniverse.in",
+  email: "urkudesam12@gmail.com",
   whatsapp: "",
   formEndpoint: "",
 
